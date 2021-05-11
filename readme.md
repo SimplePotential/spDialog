@@ -3,6 +3,8 @@ spDialog is designed to provide web developers a simple way to show a quick dial
 
 *__This document is a WIP__*
 
+*__Version 00.00.05 ALPHA__*
+
 ## Table of Contents
 * [Installation](#installation)
 * [General Usage](#general-usage)
