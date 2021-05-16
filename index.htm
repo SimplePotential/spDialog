@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="js/spDialog.min.js" defer></script>
+        <script>
+            
+            let dlgAlert = null;
+
+            function init()
+            {
+                let dlgAlertParams = {
+                    textTitle: 'Example: Alert Replacement',
+                    textBody: `<div style='margin-bottom: 5px'>This is an example of a simple alert() replacement dialog.</div><div><span style='font-weight: bold'>NOTE:</span> textBody can contain HTML.</div>`,
+                    showAnswerCancel: false,
+                    showAnswerFalse: false,
+                    dialogWidth: '375px',
+                    dialogHeight: '175px',
+                    dialogFontSize: '.85rem',
+                    dialogAnimate: true,
+                    onOpen: () => { let ts = new Date(); document.getElementById('dlgDetailResponse').innerHTML = `User Opened Dialog at ${ts.toUTCString()}`; }
+                }
+                
+                dlgAlert = new spDialog(dlgAlertParams)
+            }
+            
+            async function ShowDialog()
+            {
+                await dlgAlert.ShowDialog().then(result => {ProcessResponse(dlgAlert.userResponse)});
+            }
+
+            function ProcessResponse(response)
+            {
+                document.getElementById('dlgDetailResponse').innerHTML += `<br/>User Response:  ${response}`;
+            }
+
+        </script>
+        <style>
+            body 
+            {
+                font-family: Verdana, sans-serif; 
+                font-size: 0.8em;
+                background-color: #ffffff;
+            }
+        </style>
+    </head>
+    <body onload="init()">
+        <div>
+            <div id="dlgDetail" style="border: 2px solid black; padding: 10px; width: 50%; margin: auto; margin-top: 20px">
+                <div style="margin-bottom: 10px">
+                    Click the Show Dialog button to see a live example of a simple alert style of dialog box.
+                </div>
+                <div style="margin-bottom: 20px">
+                    This page and example is a placeholder and will be updated soon.
+                </div>
+                <div style="width: 50%; margin: auto; text-align: center">
+                    <button id="showDialog" onclick="ShowDialog()">Show Dialog</button>
+                </div>
+                <div id="dlgDetailResponse" style="margin-top: 10px; font-weight: bolder;">
+
+                </div>              
+            </div>
+        </div>
+    </body>
+</html>
