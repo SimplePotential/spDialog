@@ -35,6 +35,7 @@
  * answerTrue               Reference to the dialog answer true button object
  * answerFalse              Reference to the dialog answer false button object
  * answerCancel             Reference to the dialog answer cancel button object
+ * allowBodyScroll          When false, the content under the dialog will not be scrollable.  When true, value set on the page will be used.
  * 
  * Methods:
  * Init()                   Initializes or Re-Initializes the entire dialog.  Causes the dialog to be rebuilt all parameters to be reapplied.
@@ -69,6 +70,8 @@ class spDialog
         this.dialogSquareCorners = params.dialogSquareCorners || false;
         this.weightAnswer = params.weightAnswer || 'bold';
         this.zIndex = params.zIndex || 7000000;
+        
+        this.allowBodyScroll = params.allowBodyScroll || false;
 
         this.showAnswerFalse = params.showAnswerFalse || false;
         this.showAnswerCancel = params.showAnswerCancel || false;
@@ -98,6 +101,7 @@ class spDialog
 
         this._instances = ++spDialog.__instances;
         this.__firstRun = true;
+        this.__previousScrollType = null;
 
         this.__result;
 
@@ -162,6 +166,13 @@ class spDialog
                 this.modalCover.style.opacity = 1;
                 this.modalCover.style.pointerEvents = 'all';
 
+                this.__previousScrollType = document.body.style.overflow;
+
+                if(!this.allowBodyScroll)
+                {
+                    document.body.style.overflow = 'hidden';
+                }
+
                 if(this.onOpen != undefined)
                 {
                     this.onOpen();
@@ -192,6 +203,11 @@ class spDialog
             this.modalCover.style.opacity = 0;
             this.modalCover.style.pointerEvents = 'none';
             this.userResponse = response;
+
+            if(!this.allowBodyScroll)
+            {
+                document.body.style.overflow = this.__previousScrollType;
+            }
 
             if(this.onClose != undefined)
             {
@@ -227,7 +243,7 @@ class spDialog
             n.style.backgroundColor = 'rgba(0,0,0,.5)';
             n.style.opacity = 0;
             if(!this.dialogNoAnimate){ n.style.transition = `${this.dialogAnimateTime}s ease-in-out` }
-            n.style.position = 'absolute';
+            n.style.position = 'fixed';
             n.style.top = 0;
             n.style.left = 0;
             n.style.bottom = 0;
