@@ -65,8 +65,8 @@ class spDialog
 
         this.dialogWidth = params.dialogWidth || '375px';
         this.dialogHeight = params.dialogHeight || '250px';
-        this.dialogMinWidth = params.dialogMinWidth || '325px';
-        this.dialogMinHeight = params.dialogMinHeight || '200px';
+        this.dialogMinWidth = params.dialogMinWidth || '150px';
+        this.dialogMinHeight = params.dialogMinHeight || '100px';
         this.dialogFont = params.dialogFont || 'Verdana, Geneva, Tahoma, sans-serif';
         this.dialogFontSize = params.dialogFontSize || '1rem';
         this.dialogNoAnimate =  params.dialogNoAnimate || false;
@@ -253,7 +253,7 @@ class spDialog
             n.style.bottom = 0;
             n.style.right = 0;
             n.style.zIndex = this.zIndex;
-            n.style.boxSizing = 'border-box';
+            n.style.boxSizing = 'content-box';
 
             this.modalCover = document.body.appendChild(n);
             this.modalCover.style.fontFamily = this.dialogFont;
@@ -269,13 +269,14 @@ class spDialog
             nd.style.height = this.dialogHeight;
             nd.style.minHeight = this.dialogMinHeight;
             nd.style.minWidth = this.dialogMinWidth;
-            nd.style.maxWidth = '50%';
-            nd.style.maxHeight = '50%';
+            nd.style.maxWidth = '95%';
+            nd.style.maxHeight = '95%';
             nd.style.position = 'relative';
             nd.style.top = '50%';
             nd.style.left = '50%';
             nd.style.transform = 'translate(-50%, -50%)';
             nd.style.display = 'block';
+            nd.style.boxSizing = 'inherit';
 
             this.modalDialog = this.modalCover.appendChild(nd);
 
@@ -291,6 +292,7 @@ class spDialog
             ndt.style.paddingBottom = '10px';
             ndt.style.height = '10%';
             ndt.innerHTML = this.textTitle;
+            ndt.style.boxSizing = 'inherit';
 
             this.dialogTitle = ndt;
 
@@ -305,6 +307,7 @@ class spDialog
             ndb.style.paddingBottom = '10px';
             ndb.style.height = '60%';
             ndb.style.overflowY = 'auto';
+            ndb.style.boxSizing = 'inherit';
 
             if(this.customBody == null)
             {
@@ -329,6 +332,7 @@ class spDialog
             nda.style.borderCollapse = 'separate';
             nda.style.borderSpacing = '5px';
             nda.style.margin = 'auto';
+            nda.style.boxSizing = 'inherit';
             
             let answers = `
                 <div id='spDialog_Box_Answers_Wrapper_${suffix}'>
@@ -356,6 +360,7 @@ class spDialog
             ndat.style.backgroundColor = this.colorAnswerTrue;
             ndat.style.width = '33%';
             ndat.style.textAlign = 'center';
+            ndat.style.boxSizing = 'inherit';
 
             this.answerTrue = ndat;
 
@@ -375,6 +380,7 @@ class spDialog
                 ndaf.style.backgroundColor = this.colorAnswerFalse;
                 ndaf.style.width = '33%';
                 ndaf.style.textAlign = 'center';
+                ndaf.style.boxSizing = 'inherit';
 
                 this.answerFalse = ndaf;
             }
@@ -395,6 +401,7 @@ class spDialog
                 ndac.style.backgroundColor = this.colorAnswerCancel;
                 ndac.style.width = '33%';
                 ndac.style.textAlign = 'center';
+                ndac.style.boxSizing = 'inherit';
 
                 this.answerCancel = ndac;
             }
@@ -407,6 +414,7 @@ class spDialog
             ndaw.style.position = 'relative';
             ndaw.style.fontWeight = this.weightAnswer;
             ndaw.style.display = 'table-row';
+            ndaw.style.boxSizing = 'inherit';
 
             this.answerWrapper = ndaw;
 
