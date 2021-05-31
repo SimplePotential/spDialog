@@ -8,8 +8,10 @@
  * textAnswerTrue           The text to display on the TRUE button, Defaults to "Yes"
  * textAnswerFalse          The text to display on the FALSE button, Defaults to "No"
  * textAnswerCancel         The text to display on the CANCEL button, Defaults to "Cancel"
- * dialogWidth              The width of the dialog, Defaults to 500px
- * dialogHeight             The height of the dialog, Defaults to 350px
+ * dialogWidth              The width of the dialog
+ * dialogHeight             The height of the dialog
+ * dialogMinWidth           The min width of the dialog
+ * dialogMinHeight          The min height of the dialog
  * dialogFont               The font name to use for the dialog
  * dialogFontSize           The size of the font for the dialog
  * dialogNoAnimate          FALSE if you wish to have no animation on the dialog as it opens or closes, Defaults to FALSE
@@ -50,7 +52,7 @@ class spDialog
 {
 
     static __instances = 0; // Tracks the number of times the constructor has been instantiated.
-    static __version = '00.00.05 ALPHA';
+    static __version = '00.00.06 ALPHA';
 
     constructor(params)
     {
@@ -63,6 +65,8 @@ class spDialog
 
         this.dialogWidth = params.dialogWidth || '375px';
         this.dialogHeight = params.dialogHeight || '250px';
+        this.dialogMinWidth = params.dialogMinWidth || '325px';
+        this.dialogMinHeight = params.dialogMinHeight || '200px';
         this.dialogFont = params.dialogFont || 'Verdana, Geneva, Tahoma, sans-serif';
         this.dialogFontSize = params.dialogFontSize || '1rem';
         this.dialogNoAnimate =  params.dialogNoAnimate || false;
@@ -249,6 +253,7 @@ class spDialog
             n.style.bottom = 0;
             n.style.right = 0;
             n.style.zIndex = this.zIndex;
+            n.style.boxSizing = 'border-box';
 
             this.modalCover = document.body.appendChild(n);
             this.modalCover.style.fontFamily = this.dialogFont;
@@ -262,8 +267,8 @@ class spDialog
             nd.style.padding = '20px';
             nd.style.width = this.dialogWidth;
             nd.style.height = this.dialogHeight;
-            nd.style.minHeight = '200px';
-            nd.style.minWidth = '325px';
+            nd.style.minHeight = this.dialogMinHeight;
+            nd.style.minWidth = this.dialogMinWidth;
             nd.style.maxWidth = '50%';
             nd.style.maxHeight = '50%';
             nd.style.position = 'relative';
@@ -282,6 +287,7 @@ class spDialog
             ndt.id = `spDialog_Box_Title_${suffix}`;
             ndt.style.textAlign = 'center';
             ndt.style.fontWeight = 'bold';
+            ndt.style.fontSize = '1.1em';
             ndt.style.paddingBottom = '10px';
             ndt.style.height = '10%';
             ndt.innerHTML = this.textTitle;
@@ -295,8 +301,9 @@ class spDialog
             ndb.style.display = 'block';
             ndb.style.textAlign = 'left';
             ndb.style.fontWeight = 'normal';
+            ndb.style.fontSize = '1em';
             ndb.style.paddingBottom = '10px';
-            ndb.style.height = '70%';
+            ndb.style.height = '60%';
             ndb.style.overflowY = 'auto';
 
             if(this.customBody == null)
@@ -317,9 +324,11 @@ class spDialog
             nda.id = `spDialog_Box_Answers_${suffix}`;
             nda.style.textAlign = 'center';
             nda.style.fontWeight = 'normal';
-            nda.style.height = '20%';
             nda.style.position = 'relative';
-            nda.style.margin = '2px 0px';
+            nda.style.display = 'table';
+            nda.style.borderCollapse = 'separate';
+            nda.style.borderSpacing = '5px';
+            nda.style.margin = 'auto';
             
             let answers = `
                 <div id='spDialog_Box_Answers_Wrapper_${suffix}'>
@@ -338,14 +347,15 @@ class spDialog
             ndat.addEventListener('mouseenter', function(event){ this.style.backgroundColor = self.colorAnswerHoverTrue });
             ndat.addEventListener('mouseleave', function(event){ this.style.backgroundColor = self.colorAnswerTrue });
             
-            ndat.style.marginRight = '5px';
-            ndat.style.display = 'inline-block';
+            ndat.style.display = 'table-cell';
             ndat.style.cursor = 'pointer';
             ndat.style.border = '1px solid #000000';
             ndat.style.borderRadius = '5px';
             ndat.style.padding = '5px';
+            ndat.style.fontSize = '.75em';
             ndat.style.backgroundColor = this.colorAnswerTrue;
-            ndat.style.width = '25%';
+            ndat.style.width = '33%';
+            ndat.style.textAlign = 'center';
 
             this.answerTrue = ndat;
 
@@ -355,14 +365,16 @@ class spDialog
                 ndaf.addEventListener('click', function(event){ self.CloseDialog(0) });
                 ndaf.addEventListener('mouseenter', function(event){ this.style.backgroundColor = self.colorAnswerHoverFalse });
                 ndaf.addEventListener('mouseleave', function(event){ this.style.backgroundColor = self.colorAnswerFalse });
-                ndaf.style.marginLeft = '5px';
-                ndaf.style.display = 'inline-block';
+
+                ndaf.style.display = 'table-cell';
                 ndaf.style.cursor = 'pointer';
                 ndaf.style.border = '1px solid #000000';
                 ndaf.style.borderRadius = '5px';
                 ndaf.style.padding = '5px';
+                ndaf.style.fontSize = '.75em';
                 ndaf.style.backgroundColor = this.colorAnswerFalse;
-                ndaf.style.width = '25%';
+                ndaf.style.width = '33%';
+                ndaf.style.textAlign = 'center';
 
                 this.answerFalse = ndaf;
             }
@@ -373,14 +385,16 @@ class spDialog
                 ndac.addEventListener('click', function(event){ self.CloseDialog(-1) });
                 ndac.addEventListener('mouseenter', function(event){ this.style.backgroundColor = self.colorAnswerHoverCancel });
                 ndac.addEventListener('mouseleave', function(event){ this.style.backgroundColor = self.colorAnswerCancel });
-                ndac.style.marginLeft = '10px';
-                ndac.style.display = 'inline-block';
+
+                ndac.style.display = 'table-cell';
                 ndac.style.cursor = 'pointer';
                 ndac.style.border = '1px solid #000000';
                 ndac.style.borderRadius = '5px';
                 ndac.style.padding = '5px';
+                ndac.style.fontSize = '.75em';
                 ndac.style.backgroundColor = this.colorAnswerCancel;
-                ndac.style.width = '25%';
+                ndac.style.width = '33%';
+                ndac.style.textAlign = 'center';
 
                 this.answerCancel = ndac;
             }
@@ -390,12 +404,12 @@ class spDialog
             ndaw.style.left = 0;
             ndaw.style.right = 0;
             ndaw.style.position = 'absolute';
-            ndaw.style.paddingBottom = '10px';
+            ndaw.style.position = 'relative';
             ndaw.style.fontWeight = this.weightAnswer;
+            ndaw.style.display = 'table-row';
 
             this.answerWrapper = ndaw;
 
-            //this.modalCover.style.opacity = 0;
             this.modalCover.style.pointerEvents = 'none';
 
             if(!this.showAnswerFalse && !this.showAnswerCancel)
