@@ -289,9 +289,8 @@ class spDialog
             ndt.style.textAlign = 'center';
             ndt.style.fontWeight = 'bold';
             ndt.style.fontSize = '1.1em';
-            ndt.style.paddingBottom = '10px';
-            ndt.style.height = '10%';
             ndt.innerHTML = this.textTitle;
+            ndt.style.height = '20%';
             ndt.style.boxSizing = 'inherit';
 
             this.dialogTitle = ndt;
@@ -305,6 +304,7 @@ class spDialog
             ndb.style.fontWeight = 'normal';
             ndb.style.fontSize = '1em';
             ndb.style.paddingBottom = '10px';
+            //ndb.style.minHeight = '*';
             ndb.style.height = '60%';
             ndb.style.overflowY = 'auto';
             ndb.style.boxSizing = 'inherit';
@@ -323,6 +323,15 @@ class spDialog
 
             document.getElementById(`spDialog_Box_${suffix}`).appendChild(ndb);
 
+            let ndacnt = document.createElement('div');
+            ndacnt.id = `spDialog_Box_Answers_Container_${suffix}`;
+            ndacnt.style.height = '20%';
+            ndacnt.style.display = 'flex';
+            ndacnt.style.flexDirection = 'column';
+            ndacnt.style.width = '100%';
+
+            document.getElementById(`spDialog_Box_${suffix}`).appendChild(ndacnt);
+
             let nda = document.createElement('div');
             nda.id = `spDialog_Box_Answers_${suffix}`;
             nda.style.textAlign = 'center';
@@ -331,7 +340,10 @@ class spDialog
             nda.style.display = 'table';
             nda.style.borderCollapse = 'separate';
             nda.style.borderSpacing = '5px';
-            nda.style.margin = 'auto';
+            nda.style.marginTop = 'auto';
+            nda.style.marginLeft = 'auto';
+            nda.style.marginRight = 'auto';
+            nda.style.alignSelf = 'flex-start';
             nda.style.boxSizing = 'inherit';
             
             let answers = `
@@ -342,7 +354,7 @@ class spDialog
                 </div>`;
             nda.innerHTML = answers;
 
-            document.getElementById(`spDialog_Box_${suffix}`).appendChild(nda);
+            ndacnt.appendChild(nda);
 
             let self = this;
             let ndat = document.getElementById(`spDialog_Box_Answer_True_${suffix}`);
@@ -407,7 +419,7 @@ class spDialog
             }
 
             let ndaw = document.getElementById(`spDialog_Box_Answers_Wrapper_${suffix}`);
-            ndaw.style.bottom = 0;
+            ndaw.style.bottom = '5px';
             ndaw.style.left = 0;
             ndaw.style.right = 0;
             ndaw.style.position = 'absolute';
