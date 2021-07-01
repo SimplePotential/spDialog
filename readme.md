@@ -1,5 +1,5 @@
 # spDialog by Simple Potential
-spDialog is designed to provide web developers a simple way to show a quick dialog message to the user.  The project aims to replace most instances of the out-of-the-box JS `Alert()` and `Confirm()` dialogs.
+spDialog is designed to provide web developers a simple way to show a quick dialog message to the user.  The project aims to replace most instances of the out-of-the-box JS `Alert()` and `Confirm()` dialogs.  Working samples can be found at [https://simplepotential.github.io/spDialog/](https://simplepotential.github.io/spDialog/)
 
 *__This document is a WIP__*
 
