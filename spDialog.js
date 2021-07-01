@@ -52,7 +52,7 @@ class spDialog
 {
 
     static __instances = 0; // Tracks the number of times the constructor has been instantiated.
-    static __version = '00.00.06 ALPHA';
+    static __version = '00.00.07 ALPHA';
 
     constructor(params)
     {
@@ -288,9 +288,10 @@ class spDialog
             ndt.id = `spDialog_Box_Title_${suffix}`;
             ndt.style.textAlign = 'center';
             ndt.style.fontWeight = 'bold';
-            ndt.style.fontSize = '1.1em';
+            ndt.style.fontSize = '1em';
             ndt.innerHTML = this.textTitle;
             ndt.style.height = '20%';
+            ndt.style.overflowY = 'auto';
             ndt.style.boxSizing = 'inherit';
 
             this.dialogTitle = ndt;
@@ -419,10 +420,6 @@ class spDialog
             }
 
             let ndaw = document.getElementById(`spDialog_Box_Answers_Wrapper_${suffix}`);
-            ndaw.style.bottom = '5px';
-            ndaw.style.left = 0;
-            ndaw.style.right = 0;
-            ndaw.style.position = 'absolute';
             ndaw.style.position = 'relative';
             ndaw.style.fontWeight = this.weightAnswer;
             ndaw.style.display = 'table-row';

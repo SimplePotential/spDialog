@@ -3,7 +3,7 @@ spDialog is designed to provide web developers a simple way to show a quick dial
 
 *__This document is a WIP__*
 
-*__Version 00.00.06c ALPHA__*
+*__Version 00.00.07 ALPHA__*
 
 ## Table of Contents
 * [Installation](#installation)
@@ -139,6 +139,7 @@ These are all the parameters available to you when want to create a dialog.
 | dialogAnimateTime      	| *.25*       	| Amount of time to spend fading the dialog in seconds                                                                                                                                                                                                         	|
 | weightAnswer           	| *bold*      	| The font weight for the answer buttons                                                                                                                                                                                                                       	|
 | zIndex                 	| *7000000*   	| The Z Index you wish to display the dialog at.                                                                                                                                                                                                               	|
+| allowBodyScroll                 	| *false*   	| When false, the content under the dialog will not be scrollable.  When true, value set on the page will be used.                                                                                                                                                                                                               	|
 | colorAnswerTrue        	| *#dbdbdb*   	| The color of the True button                                                                                                                                                                                                                                 	|
 | colorAnswerFalse       	| *#dbdbdb*   	| The color of the False button                                                                                                                                                                                                                                	|
 | colorAnswerCancel      	| *#dbdbdb*   	| The color of the Cancel button                                                                                                                                                                                                                               	|

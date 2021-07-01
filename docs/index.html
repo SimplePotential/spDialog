@@ -1,14 +1,22 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script src="spDialog.min.js" defer></script>
+        <title>spDialog - Samples</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="main.css" />
+        <!-- <script src="spDialog.min.js" defer></script> -->
+        <!-- <script src="../js/spDialog.js" defer></script> -->
+        <script src="F:\My Documents\My Projects\SPDialog\js\spDialog.js" defer></script>
         <script>
             
-            let dlgAlert = null;
+            let dlgBasicAlert = null;
+            let dlgBasicConfirm = null;
+            let dlgConfirmCancel = null;
+            let dlgCustomAlertBody = null;
 
             function init()
             {
-                let dlgAlertParams = {
+                let dlgBasicAlertParams = {
                     textTitle: 'Example: Alert Replacement',
                     textBody: `<div style='margin-bottom: 5px'>This is an example of a simple alert() replacement dialog.</div><div><span style='font-weight: bold'>NOTE:</span> textBody can contain HTML.</div>`,
                     showAnswerCancel: false,
@@ -17,47 +25,408 @@
                     dialogHeight: '175px',
                     dialogFontSize: '.85rem',
                     dialogAnimate: true,
-                    onOpen: () => { let ts = new Date(); document.getElementById('dlgDetailResponse').innerHTML = `User Opened Dialog at ${ts.toUTCString()}`; }
+                    onOpen: () => {ProcessOpen(document.getElementById('ex-basic-alert-response'));}
                 }
                 
-                dlgAlert = new spDialog(dlgAlertParams)
+                dlgBasicAlert = new spDialog(dlgBasicAlertParams);
+
+                let dlgBasicConfirmParams = {
+                    textTitle: 'Example: Confirm Replacement',
+                    textBody: `This is a simple confirm box to ask the user a question.<br/><br/>Would you like to continue?`,
+                    showAnswerCancel: false,
+                    showAnswerFalse: true,
+                    dialogWidth: '425px',
+                    dialogHeight: '150px',
+                    dialogFontSize: '.85rem',
+                    dialogAnimate: true,
+                    onOpen: () => {ProcessOpen(document.getElementById('ex-basic-confirm-response'));}
+                }
+
+                dlgBasicConfirm = new spDialog(dlgBasicConfirmParams);
+
+                let dlgConfirmCancelParams = {
+                    textTitle: 'Example: Confirm Replacement with Cancel',
+                    textBody: `This is a simple confirm box to ask the user a question and allow them to cancel the request. It also shows that you can adjust the text of the buttons and use percentages for width/height.<br/><br/>Do you agree?`,
+                    showAnswerCancel: true,
+                    showAnswerFalse: true,
+                    dialogWidth: '40%',
+                    dialogHeight: '20%',
+                    dialogFontSize: '.75rem',
+                    dialogAnimate: true,
+                    textAnswerTrue: 'Agree',
+                    textAnswerFalse: 'Disagree',
+                    onOpen: () => {ProcessOpen(document.getElementById('ex-confirm-cancel-response'));}
+                }
+
+                dlgConfirmCancel = new spDialog(dlgConfirmCancelParams);
+
+                let dlgCustomAlertBodyParams = {
+                    textTitle: 'Example: Alert Custom Body',
+                    showAnswerCancel: false,
+                    showAnswerFalse: false,
+                    dialogFontSize: '.75rem',
+                    dialogWidth: '30%',
+                    dialogHeight: '10%',
+                    dialogAnimate: true,
+                    customBody: document.getElementById('customAlertBody'),
+                    onOpen: () => {ProcessOpen(document.getElementById('ex-alert-custom-response'));},
+                    onClose: () => { document.getElementById('ex-alert-custom-onclose').innerHTML = `Welcome ${document.getElementById('customAlertBody_PersonName').value}!`; document.getElementById('customAlertBody_PersonName').value = ''; }
+                }
+
+                dlgCustomAlertBody = new spDialog(dlgCustomAlertBodyParams);
+
             }
             
-            async function ShowDialog()
+            async function ShowBasicAlert()
             {
-                await dlgAlert.ShowDialog().then(result => {ProcessResponse(dlgAlert.userResponse)});
+                await dlgBasicAlert.ShowDialog().then(result => {ProcessResponse(document.getElementById('ex-basic-alert-response'), dlgBasicAlert.userResponse)});
             }
 
-            function ProcessResponse(response)
+            async function ShowBasicConfirm()
             {
-                document.getElementById('dlgDetailResponse').innerHTML += `<br/>User Response:  ${response}`;
+                await dlgBasicConfirm.ShowDialog().then(result => {ProcessResponse(document.getElementById('ex-basic-confirm-response'), dlgBasicConfirm.userResponse)});
+            }
+
+            async function ShowConfirmCancel()
+            {
+                await dlgConfirmCancel.ShowDialog().then(result => {ProcessResponse(document.getElementById('ex-confirm-cancel-response'), dlgConfirmCancel.userResponse)});
+            }
+
+            async function ShowAlertCustomBody()
+            {
+                await dlgCustomAlertBody.ShowDialog().then(result => {ProcessResponse(document.getElementById('ex-alert-custom-response'), dlgCustomAlertBody.userResponse)});
+            }
+
+            function ProcessOpen(obj)
+            {
+                let ts = new Date();
+                obj.innerHTML = `User Opened Dialog at ${ts.toUTCString()}`;
+            }
+
+            function ProcessResponse(obj, result)
+            {
+                let ts = new Date();
+                obj.innerHTML += `<br/>User Responded at ${ts.toUTCString()}<br/>Response: ${result}`;
             }
 
         </script>
-        <style>
-            body 
-            {
-                font-family: Verdana, sans-serif; 
-                font-size: 0.8em;
-                background-color: #ffffff;
-            }
-        </style>
     </head>
     <body onload="init()">
-        <div>
-            <div id="dlgDetail" style="border: 2px solid black; padding: 10px; width: 50%; margin: auto; margin-top: 20px">
-                <div style="margin-bottom: 10px">
-                    Click the Show Dialog button to see a live example of a simple alert style of dialog box.
-                </div>
-                <div style="margin-bottom: 20px">
-                    This page and example is a placeholder and will be updated soon.
-                </div>
-                <div style="width: 50%; margin: auto; text-align: center">
-                    <button id="showDialog" onclick="ShowDialog()">Show Dialog</button>
-                </div>
-                <div id="dlgDetailResponse" style="margin-top: 10px; font-weight: bolder;">
+        <div class="mainContainer-Left">
+            <div class="title">
+                spDialog
+            </div>
+            <a href="#ex-basic-alert">Basic Alert</a>
+            <a href="#ex-basic-confirm">Basic Confirm</a>
+            <a href="#ex-confirm-cancel">Confirm with Cancel</a>
+            <a href="#ex-alert-custom">Custom Body Alert</a>
 
-                </div>              
+            <a href="https://github.com/SimplePotential/spDialog" style="border-top: 1px dashed rgba(255, 255, 255, 0.5)">Github</a>
+            <a href="https://github.com/SimplePotential/spDialog/discussions" style="border-bottom: 1px dashed rgba(255, 255, 255, 0.5)">Discussions</a>
+        </div>
+        <div class="mainContainer-Right">
+            <a id="ex-top"></a>
+            <div class="mobile-header">
+                <div class="mobile-title">
+                    <h1>spDialog</h1>
+                </div>
+                <div class="mobile-menu-ex">
+                    <a href="#ex-basic-alert">Basic Alert</a> | 
+                    <a href="#ex-basic-confirm">Basic Confirm</a> | 
+                    <a href="#ex-confirm-cancel">Confirm with Cancel</a> | 
+                    <a href="#ex-alert-custom">Custom Body Alert</a>
+                </div>
+                <div class="mobile-menu-git">
+                    <a href="https://github.com/SimplePotential/spDialog">Github</a> | 
+                    <a href="https://github.com/SimplePotential/spDialog/discussions">Discussions</a>
+                </div>
+            </div>
+            <div class="contentBlock">
+                <h2>
+                    spDialog Samples
+                </h2>
+                <div class="contentBlockDetailChild">
+                    This page contains several examples of how to use spDialog.  If you don't see an example that fits your needs, head on over 
+                    to <a href="https://github.com/SimplePotential/spDialog/discussions">Discussions</a> on 
+                    <a href="https://github.com/SimplePotential/spDialog">Github</a> and let us know what you're looking for.
+                </div>
+                <div class="contentBlockDetailChild">
+                    Some quick details about these examples:
+                    <ul>
+                        <li>spDialog assume you already know how to use JavaScript and HTML</li>
+                        <li>Each example utilizes a <i>Response</i> area just below the button for the example to display any detail resulting from pressing said button</li>
+                        <li>The <i>ProcessResponse()</i> function listed in the examples is strictly for these examples to display results in the <i>Response</i> area</li>
+                        <li>
+                            Most everything in spDialog is customizable, see the 
+                            <a href="https://github.com/SimplePotential/spDialog/blob/main/readme.md#parameters">Parameters</a> section of the ReadMe file 
+                            for a full list of options.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="contentBlock">
+                <h2>
+                    <a id="ex-basic-alert">Basic Alert</a>
+                </h2>
+                <div class="contentBlockDetail">
+                    <div class="contentBlockDetailChild">
+                        This example shows how to display a basic alert dialog with an OK button.  
+                        It will launch the dialog and output the timestamp when the user opened the dialog and then once a response is received it will output 
+                        that response as well to the <i>Response</i> container below.
+                    </div>
+                    <div class="contentBlockDetailChild">
+                        We accomplish this by utilizing an OnOpen callback to print the timestamp and by showing the dialog with an async await call in order to wait for a user response using a promise.  
+                        The use of the timestamps is strictly to show you that the dialog is indeed waiting on the user to respond.                        
+                    </div>
+                    <div class="contentBlockDetailChild">
+                        The only valid response from an Alert style dialog is a value of 1
+                    </div>
+                    <div class="contentBlockDetailChild">
+                        <button onclick="ShowBasicAlert()">Show Basic Alert</button>
+                    </div>
+                    <h3>Response</h3>
+                    <div id="ex-basic-alert-response" class="contentBlockDetailResponse">
+                        
+                    </div> 
+                    <h3>Code</h3>
+                    <div class="contentBlockDetailCode">
+<pre><code>let dlgBasicAlert = null;
+
+function init()
+{
+        let dlgBasicAlertParams = {
+        textTitle: 'Example: Alert Replacement',
+        textBody: `&lt;div style='margin-bottom: 5px'>This is an example of a simple alert() replacement dialog.&lt;/div>&lt;div>&lt;span style='font-weight: bold'>NOTE:&lt;/span> textBody can contain HTML.&lt;/div>`,
+        showAnswerCancel: false,
+        showAnswerFalse: false,
+        dialogWidth: '375px',
+        dialogHeight: '175px',
+        dialogFontSize: '.85rem',
+        dialogAnimate: true,
+        onOpen: () => {ProcessOpen(document.getElementById('ex-basic-alert-response'));}
+    }
+
+    dlgBasicAlert = new spDialog(dlgBasicAlertParams);
+}
+
+async function ShowBasicAlert()
+{
+    await dlgBasicAlert.ShowDialog().then(result => {ProcessResponse(document.getElementById('ex-basic-alert-response'), dlgBasicAlert.userResponse)});
+}</code></pre>
+
+                    </div> 
+                    <div class="contentBlockDetailChild">
+                        Note that the <i>ProcessOpen()</i> and <i>ProcessResponse()</i> functions in the code block are specific to this page.  You'd want to provide your own custom functions to process user input.
+                    </div>
+                    <div class="contentBlockDetailChild-GoTop">
+                        <a href="#ex-top">Back to top</a>
+                    </div>
+                </div>
+            </div>
+            <div class="contentBlock">
+                <h2>
+                    <a id="ex-basic-confirm">Basic Confirm</a>
+                </h2>
+                <div class="contentBlockDetail">
+                    <div class="contentBlockDetailChild">
+                        This example shows how to display a basic confirm dialog with a Yes and No button.
+                        It will launch the dialog and output the timestamp when the user opened the dialog and then once a response is received it will output 
+                        that response as well to the <i>Response</i> container below.
+                    </div>
+                    <div class="contentBlockDetailChild">
+                        We accomplish this by utilizing an OnOpen callback to print the timestamp and by showing the dialog with an async await call in order to wait for a user response using a promise.  
+                        The use of the timestamps is strictly to show you that the dialog is indeed waiting on the user to respond.                        
+                    </div>
+                    <div class="contentBlockDetailChild">
+                        <button onclick="ShowBasicConfirm()">Show Basic Confirm</button>
+                    </div>
+                    <h3>Response</h3>
+                    <div id="ex-basic-confirm-response" class="contentBlockDetailResponse">
+                        
+                    </div>
+                    <h3>Code</h3>
+                    <div class="contentBlockDetailCode">
+<pre><code>let dlgBasicConfirm = null;
+   
+function init()
+{
+    let dlgBasicConfirmParams = {
+        textTitle: 'Example: Confirm Replacement',
+        textBody: `This is a simple confirm box to ask the user a question.&lt;br/>&lt;br/>Would you like to continue?`,
+        showAnswerCancel: false,
+        showAnswerFalse: true,
+        dialogWidth: '425px',
+        dialogHeight: '150px',
+        dialogFontSize: '.85rem',
+        dialogAnimate: true,
+        onOpen: () => {ProcessOpen(document.getElementById('ex-basic-confirm-response'));}
+    }
+
+    dlgBasicConfirm = new spDialog(dlgBasicConfirmParams);
+}
+
+async function ShowBasicConfirm()
+{
+    await dlgBasicConfirm.ShowDialog().then(result => {ProcessResponse(document.getElementById('ex-basic-confirm-response'), dlgBasicConfirm.userResponse)});
+}</code></pre>
+
+                    </div>
+                    <div class="contentBlockDetailChild">
+                        Note that the <i>ProcessOpen()</i> and <i>ProcessResponse()</i> functions in the code block are specific to this page.  You'd want to provide your own custom functions to process user input.
+                    </div>
+                    <div class="contentBlockDetailChild">
+                        Worth mentioning that a Confirm dialog only allows the user to close it when they click one of the buttons.  Alert boxes with a single button can be closed by clicking in the background cover area as well.
+                    </div>  
+                    <div class="contentBlockDetailChild-GoTop">
+                        <a href="#ex-top">Back to top</a>
+                    </div>         
+                </div>
+            </div>
+            <div class="contentBlock">
+                <h2>
+                    <a id="ex-confirm-cancel">Confirm with Cancel</a>
+                </h2>
+                <div class="contentBlockDetail">
+                    <div class="contentBlockDetailChild">
+                        This example shows how to display a confirm dialog that allows the user to to chose Yes (1), No (0), or Cancel (-1).
+                        It will launch the dialog and output the timestamp when the user opened the dialog and then once a response is received it will output 
+                        that response as well to the <i>Response</i> container below.
+                    </div>
+                    <div class="contentBlockDetailChild">
+                        We accomplish this by utilizing an OnOpen callback to print the timestamp and by showing the dialog with an async await call in order to wait for a user response using a promise.  
+                        The use of the timestamps is strictly to show you that the dialog is indeed waiting on the user to respond.                        
+                    </div>
+                    <div class="contentBlockDetailChild">
+                        <button onclick="ShowConfirmCancel()">Show Confirm with Cancel</button>
+                    </div>
+                    <h3>Response</h3>
+                    <div id="ex-confirm-cancel-response" class="contentBlockDetailResponse">
+                        
+                    </div>
+                    <h3>Code</h3>
+                    <div class="contentBlockDetailCode">
+<pre><code>let dlgConfirmCancel = null;
+   
+function init()
+{
+    let dlgConfirmCancelParams = {
+        textTitle: 'Example: Confirm Replacement with Cancel',
+        textBody: `This is a simple confirm box to ask the user a question and allow them to cancel the request. It also shows that you can adjust the text of the buttons and use percentages for width/height.<br/><br/>Do you agree?`,
+        showAnswerCancel: true,
+        showAnswerFalse: true,
+        dialogWidth: '40%',
+        dialogHeight: '20%',
+        dialogFontSize: '.75rem',
+        dialogAnimate: true,
+        textAnswerTrue: 'Agree',
+        textAnswerFalse: 'Disagree',
+        onOpen: () => {ProcessOpen(document.getElementById('ex-confirm-cancel-response'));}
+    }
+
+    dlgConfirmCancel = new spDialog(dlgConfirmCancelParams);
+}
+
+async function ShowConfirmCancel()
+{
+    await dlgConfirmCancel.ShowDialog().then(result => {ProcessResponse(document.getElementById('ex-confirm-cancel-response'), dlgConfirmCancel.userResponse)});
+}</code></pre>
+
+                    </div>
+                    <div class="contentBlockDetailChild">
+                        Note that the <i>ProcessOpen()</i> and <i>ProcessResponse()</i> functions in the code block are specific to this page.  You'd want to provide your own custom functions to process user input.
+                    </div>
+                    <div class="contentBlockDetailChild">
+                        Worth mentioning that a Confirm dialog only allows the user to close it when they click one of the buttons.  Alert boxes with a single button can be closed by clicking in the background cover area as well.
+                    </div>  
+                    <div class="contentBlockDetailChild-GoTop">
+                        <a href="#ex-top">Back to top</a>
+                    </div>         
+                </div>
+            </div>
+            <div class="contentBlock">
+                <h2>
+                    <a id="ex-alert-custom">Custom Body Alert</a>
+                </h2>
+                <div class="contentBlockDetail">
+                    <div class="contentBlockDetailChild">
+                        This example shows how to display an alert dialog with a custom body that includes a text input box.  
+                        It will launch the dialog and output the timestamp when the user opened the dialog and then once a response is received it will output 
+                        that response as well to the <i>Response</i> container below.
+                    </div>
+                    <div class="contentBlockDetailChild">
+                        As with the other examples, we accomplish this by utilizing an OnOpen callback to print the timestamp and by showing the dialog with an async await call in order to wait for a user response using a promise.  
+                        The use of the timestamps is strictly to show you that the dialog is indeed waiting on the user to respond.                        
+                    </div>
+                    <div class="contentBlockDetailChild">
+                        Unlike the other examples, we are passing in a new parameter call <i>customBody</i>.  This parameter expects a div object containing the detail you wish to show in the body of the dialog.  
+                        The div should be placed someplace on your page with a style display of <i>none</i> to keep it from showing in your main content.  If you view the source of this page 
+                        and search for <b>customAlertBody</b>, you can see how this is accomplished for this example.
+                    </div>
+                    <div class="contentBlockDetailChild">
+                        To show that this could be more than simple HTML, this example includes a text box to enter 
+                        a name.  Using the <b>onClose</b> callback parameter, we will take the value typed in that box and display it in the <b>onClose Result</b> area below.
+                    </div>
+                    <div class="contentBlockDetailChild">
+                        There are no built in limitations on what content you can display with a custom body but there could be some practical ones.  Any overflow in the body will receive scrollbars which may look 
+                        odd in a dialog for instance.  You could also utilize the values inputted into form fields in the dialog without using an onClose callback of course.  This was simply the easiest way to 
+                        show it in an example.
+                    </div>
+                    <div class="contentBlockDetailChild">
+                        <button onclick="ShowAlertCustomBody()">Show Alert with Custom Body</button>
+                    </div>
+                    <h3>Response</h3>
+                    <div id="ex-alert-custom-response" class="contentBlockDetailResponse">
+                        
+                    </div>
+
+                    <h3>onClose Result</h3>
+                    <div id="ex-alert-custom-onclose" class="contentBlockDetailResponse">
+                        
+                    </div>
+
+                    <h3>Code</h3>
+                    <div class="contentBlockDetailCode">
+<pre><code>let dlgCustomAlertBody = null;
+
+function init()
+{
+    let dlgCustomAlertBodyParams = {
+        textTitle: 'Example: Alert Custom Body',
+        showAnswerCancel: false,
+        showAnswerFalse: false,
+        dialogFontSize: '.75rem',
+        dialogWidth: '30%',
+        dialogHeight: '10%',
+        dialogAnimate: true,
+        customBody: document.getElementById('customAlertBody'),
+        onOpen: () => {ProcessOpen(document.getElementById('ex-alert-custom-response'));},
+        onClose: () => { document.getElementById('ex-alert-custom-onclose').innerHTML = `Welcome ${document.getElementById('customAlertBody_PersonName').value}!`; document.getElementById('customAlertBody_PersonName').value = ''; }
+    }
+
+    dlgCustomAlertBody = new spDialog(dlgCustomAlertBodyParams);
+}
+
+async function ShowAlertCustomBody()
+{
+    await dlgCustomAlertBody.ShowDialog().then(result => {ProcessResponse(document.getElementById('ex-alert-custom-response'), dlgCustomAlertBody.userResponse)});
+}</code></pre>
+
+                    </div>
+                    <div class="contentBlockDetailChild">
+                        Note that the <i>ProcessOpen()</i> and <i>ProcessResponse()</i> functions in the code block are specific to this page.  You'd want to provide your own custom functions to process user input.
+                    </div>
+                    <div id="customAlertBody" style="display: none; padding: 10px; text-align: center;">
+                        <div>
+                            Please enter your name and click OK
+                        </div>
+                        <div>
+                            <input id="customAlertBody_PersonName" type="text" style="border: 1px solid #000000;" />
+                        </div>
+                    </div>
+                    <div class="contentBlockDetailChild-GoTop">
+                        <a href="#ex-top">Back to top</a>
+                    </div>
+                </div>
             </div>
         </div>
     </body>
