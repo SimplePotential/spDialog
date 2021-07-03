@@ -97,6 +97,7 @@ class spDialog
         this.modalDialog = null;
         this.dialogTitle = null;
         this.dialogBody = null;
+        this.dialogAnswers = null;
         this.answerWrapper = null;
         this.answerTrue = null;
         this.answerFalse = null;
@@ -291,7 +292,7 @@ class spDialog
             ndt.style.fontSize = '1em';
             ndt.innerHTML = this.textTitle;
             ndt.style.height = '20%';
-            ndt.style.overflowY = 'auto';
+            ndt.style.overflow = 'hidden';
             ndt.style.boxSizing = 'inherit';
 
             this.dialogTitle = ndt;
@@ -426,6 +427,8 @@ class spDialog
             ndaw.style.boxSizing = 'inherit';
 
             this.answerWrapper = ndaw;
+
+            this.dialogAnswers = ndacnt;
 
             this.modalCover.style.pointerEvents = 'none';
 

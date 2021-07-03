@@ -11,6 +11,7 @@
             let dlgBasicConfirm = null;
             let dlgConfirmCancel = null;
             let dlgCustomAlertBody = null;
+            let dlgCompletelyCustom = null;
 
             function init()
             {
@@ -73,6 +74,35 @@
 
                 dlgCustomAlertBody = new spDialog(dlgCustomAlertBodyParams);
 
+                let dlgCompletelyCustomParams = {
+                    textTitle: 'Example: Custom Dialog Design',
+                    textBody: 'This is an example of a dialog with custom formatting.  Compare it to the other examples and the differences should be apparent.',
+                    //dialogFontSize: '1rem',
+                    dialogWidth: '40%',
+                    dialogHeight: '175px',
+                    dialogAnimate: true,
+                    onOpen: () => {ProcessOpen(document.getElementById('ex-alert-completely-custom-response'));},
+                }
+
+                dlgCompletelyCustom = new spDialog(dlgCompletelyCustomParams);
+
+                dlgCompletelyCustom.modalCover.style.backgroundColor = 'rgba(255, 255, 255, .5)';
+                dlgCompletelyCustom.modalDialog.style.border = '1px solid #969696';
+                dlgCompletelyCustom.modalDialog.style.borderTop = '0px solid #3268a8';
+                dlgCompletelyCustom.modalDialog.style.backgroundColor = '#e0e0e0';
+                dlgCompletelyCustom.modalDialog.style.padding = '0px';
+                dlgCompletelyCustom.dialogTitle.style.height = '15px';
+                dlgCompletelyCustom.dialogTitle.style.border = '4px solid #3268a8';
+                dlgCompletelyCustom.dialogTitle.style.backgroundColor = '#3268a8';
+                dlgCompletelyCustom.dialogTitle.style.borderRadius = '10px 10px 0px 0px';
+                dlgCompletelyCustom.dialogTitle.style.textAlign = 'left';
+                dlgCompletelyCustom.dialogTitle.style.color = '#ffffff';
+                dlgCompletelyCustom.dialogTitle.style.padding = '5px';
+                dlgCompletelyCustom.dialogTitle.style.textShadow = '2px 2px 2px rgba(0, 0, 0, .85)';
+                dlgCompletelyCustom.dialogTitle.style.fontSize = '.9em';
+                dlgCompletelyCustom.dialogBody.style.padding = '5px';                
+                dlgCompletelyCustom.dialogBody.style.height = '50%';
+                
             }
             
             async function ShowBasicAlert()
@@ -93,6 +123,11 @@
             async function ShowAlertCustomBody()
             {
                 await dlgCustomAlertBody.ShowDialog().then(result => {ProcessResponse(document.getElementById('ex-alert-custom-response'), dlgCustomAlertBody.userResponse)});
+            }
+            
+            async function ShowAlertCompletelyCustom()
+            {
+                await dlgCompletelyCustom.ShowDialog().then(result => {ProcessResponse(document.getElementById('ex-alert-completely-custom-response'), dlgCompletelyCustom.userResponse)});
             }
 
             function ProcessOpen(obj)
@@ -118,6 +153,7 @@
             <a href="#ex-basic-confirm">Basic Confirm</a>
             <a href="#ex-confirm-cancel">Confirm with Cancel</a>
             <a href="#ex-alert-custom">Custom Body Alert</a>
+            <a href="#ex-completely-custom">Custom Dialog Design</a>
 
             <a href="https://github.com/SimplePotential/spDialog" style="border-top: 1px dashed rgba(255, 255, 255, 0.5)">Github</a>
             <a href="https://github.com/SimplePotential/spDialog/discussions" style="border-bottom: 1px dashed rgba(255, 255, 255, 0.5)">Discussions</a>
@@ -132,7 +168,8 @@
                     <a href="#ex-basic-alert">Basic Alert</a> | 
                     <a href="#ex-basic-confirm">Basic Confirm</a> | 
                     <a href="#ex-confirm-cancel">Confirm with Cancel</a> | 
-                    <a href="#ex-alert-custom">Custom Body Alert</a>
+                    <a href="#ex-alert-custom">Custom Body Alert</a> | 
+                    <a href="#ex-completely-custom">Custom Dialog Design</a>
                 </div>
                 <div class="mobile-menu-git">
                     <a href="https://github.com/SimplePotential/spDialog">Github</a> | 
@@ -407,6 +444,102 @@ function init()
 async function ShowAlertCustomBody()
 {
     await dlgCustomAlertBody.ShowDialog().then(result => {ProcessResponse(document.getElementById('ex-alert-custom-response'), dlgCustomAlertBody.userResponse)});
+}</code></pre>
+
+                    </div>
+                    <div class="contentBlockDetailChild">
+                        Note that the <i>ProcessOpen()</i> and <i>ProcessResponse()</i> functions in the code block are specific to this page.  You'd want to provide your own custom functions to process user input.
+                    </div>
+                    <div id="customAlertBody" style="display: none; padding: 10px; text-align: center;">
+                        <div>
+                            Please enter your name and click OK
+                        </div>
+                        <div>
+                            <input id="customAlertBody_PersonName" type="text" style="border: 1px solid #000000;" />
+                        </div>
+                    </div>
+                    <div class="contentBlockDetailChild-GoTop">
+                        <a href="#ex-top">Back to top</a>
+                    </div>
+                </div>
+            </div>
+            <div class="contentBlock">
+                <h2>
+                    <a id="ex-completely-custom">Custom Dialog Design</a>
+                </h2>
+                <div class="contentBlockDetail">
+                    <div class="contentBlockDetailChild">
+                        This example shows how to display an alert dialog with a custom design.  
+                        It will launch the dialog and output the timestamp when the user opened the dialog and then once a response is received it will output 
+                        that response as well to the <i>Response</i> container below.
+                    </div>
+                    <div class="contentBlockDetailChild">
+                        As with the other examples, we accomplish this by utilizing an OnOpen callback to print the timestamp and by showing the dialog with an async await call in order to wait for a user response using a promise.  
+                        The use of the timestamps is strictly to show you that the dialog is indeed waiting on the user to respond.                        
+                    </div>
+                    <div class="contentBlockDetailChild">
+                        We accomplish the custom design by using the referenced elements from the dialog object such as <i>modalDialog</i>.  
+                        Check out the 
+                            <a href="https://github.com/SimplePotential/spDialog/blob/main/readme.md#parameters">Parameters</a> section of the ReadMe file 
+                            for a full list of options. 
+                    </div>
+                    <div class="contentBlockDetailChild">
+                        Note that you may have to use some finesse if you plan to resize the components of the dialog as done in this example.  For instance, 
+                        removing the <i>dlgCompletelyCustom.dialogBody.style.height = '50%'</i> line would result in the answer area appearing outside the dialog 
+                        area if you didn't adjust the <i>dialogHeight</i> parameter to a larger size.
+                    </div>
+                    <div class="contentBlockDetailChild">
+                        In the future, I would like to expand on the styling options by including a few default style options using stylesheets and named classes.  
+                        I may also add additional properties to more directly adjust the dialog design.  
+                        Until then, using the named object references should suffice in most cases and it helps keep the file size small.
+                    </div>
+                    <div class="contentBlockDetailChild">
+                        <button onclick="ShowAlertCompletelyCustom()">Show Alert with Custom Dialog Design</button>
+                    </div>
+                    <h3>Response</h3>
+                    <div id="ex-alert-completely-custom-response" class="contentBlockDetailResponse">
+                        
+                    </div>
+                    </div>
+
+                    <h3>Code</h3>
+                    <div class="contentBlockDetailCode">
+<pre><code>let dlgCompletelyCustom = null;
+
+function init()
+{
+    let dlgCompletelyCustomParams = {
+        textTitle: 'Example: Custom Dialog Design',
+        textBody: 'This is an example of a dialog with custom formatting.  Compare it to the other examples and the differences should be apparent.',
+        dialogWidth: '40%',
+        dialogHeight: '175px',
+        dialogAnimate: true,
+        onOpen: () => {ProcessOpen(document.getElementById('ex-alert-completely-custom-response'));},
+    }
+
+    dlgCompletelyCustom = new spDialog(dlgCompletelyCustomParams);
+
+    dlgCompletelyCustom.modalCover.style.backgroundColor = 'rgba(255, 255, 255, .5)';
+    dlgCompletelyCustom.modalDialog.style.border = '1px solid #969696';
+    dlgCompletelyCustom.modalDialog.style.borderTop = '0px solid #3268a8';
+    dlgCompletelyCustom.modalDialog.style.backgroundColor = '#e0e0e0';
+    dlgCompletelyCustom.modalDialog.style.padding = '0px';
+    dlgCompletelyCustom.dialogTitle.style.height = '15px';
+    dlgCompletelyCustom.dialogTitle.style.border = '4px solid #3268a8';
+    dlgCompletelyCustom.dialogTitle.style.backgroundColor = '#3268a8';
+    dlgCompletelyCustom.dialogTitle.style.borderRadius = '10px 10px 0px 0px';
+    dlgCompletelyCustom.dialogTitle.style.textAlign = 'left';
+    dlgCompletelyCustom.dialogTitle.style.color = '#ffffff';
+    dlgCompletelyCustom.dialogTitle.style.padding = '5px';
+    dlgCompletelyCustom.dialogTitle.style.textShadow = '2px 2px 2px rgba(0, 0, 0, .85)';
+    dlgCompletelyCustom.dialogTitle.style.fontSize = '.9em';
+    dlgCompletelyCustom.dialogBody.style.padding = '5px';                
+    dlgCompletelyCustom.dialogBody.style.height = '50%';
+}
+
+async function ShowAlertCompletelyCustom()
+{
+    await dlgCompletelyCustom.ShowDialog().then(result => {ProcessResponse(document.getElementById('ex-alert-completely-custom-response'), dlgCompletelyCustom.userResponse)});
 }</code></pre>
 
                     </div>

@@ -1,9 +1,7 @@
 # spDialog by Simple Potential
-spDialog is designed to provide web developers a simple way to show a quick dialog message to the user.  The project aims to replace most instances of the out-of-the-box JS `Alert()` and `Confirm()` dialogs.  Working samples can be found at [https://simplepotential.github.io/spDialog/](https://simplepotential.github.io/spDialog/)
+spDialog is designed to provide web developers a simple way to show a quick dialog message to the user.  The project aims to replace most instances of the out-of-the-box JS `Alert()` and `Confirm()` dialogs.
 
 *__This document is a WIP__*
-
-*__Version 00.00.07 ALPHA__*
 
 ## Table of Contents
 * [Installation](#installation)
@@ -157,7 +155,8 @@ You can also access the following:
 | modalDialog   	| A reference to the main dialog DIV                                                                                 	|
 | dialogTitle   	| A reference to the dialog Title DIV                                                                                	|
 | dialogBody    	| A reference to the dialog Body DIV                                                                                 	|
-| answerWrapper 	| A reference to the answer button's parent DIV                                                                      	|
+| dialogAnswers    	| A reference to the dialog Answer DIV                                                                                 	|
+| answerWrapper 	| A reference to the answer buttons' parent DIV                                                                      	|
 | answerTrue    	| A reference to the True button                                                                                     	|
 | answerFalse   	| A reference to the False button                                                                                    	|
 | answerCancel  	| A reference to the Cancel button                                                                                   	|
