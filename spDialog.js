@@ -52,7 +52,7 @@ class spDialog
 {
 
     static __instances = 0; // Tracks the number of times the constructor has been instantiated.
-    static __version = '00.00.07 ALPHA';
+    static __version = '00.00.08 ALPHA';
 
     constructor(params)
     {
